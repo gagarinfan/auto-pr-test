@@ -15,3 +15,10 @@ jobs:
         # if: ${{ github.event.label.name == 'automerge' }}
         if: contains( github.event.pull_request.labels.*.name, 'test')
         run: echo not-always bro
+
+      - name: Check labels in fly
+        uses: jesusvasquez333/verify-pr-label-action@v1.4.0
+        with:
+            github-token: '${{ secrets.GITHUB_TOKEN }}'
+            valid-labels: 'test'
+            pull-request-number: '${{ github.event.pull_request.number }}'
