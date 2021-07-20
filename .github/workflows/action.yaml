@@ -26,4 +26,4 @@ jobs:
 
       - name: Run step if labels
         if: steps.check.outputs.apply
-        run: echo yeah
+        run: echo fk yeah
