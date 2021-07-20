@@ -2,7 +2,8 @@ name: Test
 
 on:
   pull_request:
-    types: [ labeled ]
+    types:
+    - '!labeled'
 jobs:
   terraform:
     name: Run test
