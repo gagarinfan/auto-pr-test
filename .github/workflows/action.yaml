@@ -13,5 +13,6 @@ jobs:
         run: echo always
 
       - name: Run on label
-        if: ${{ github.event.label.name == 'automerge' }}
+        # if: ${{ github.event.label.name == 'automerge' }}
+        if: contains( github.event.pull_request.labels.*.name, 'automerge')
         run: echo not-always bro
