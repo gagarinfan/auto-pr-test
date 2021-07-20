@@ -17,6 +17,13 @@ jobs:
         run: echo not-always bro
 
       - name: Check labels in fly
+        id: check
         run: |
           labels=$(curl -H "Accept: application/vnd.github.v3+json"   https://api.github.com/repos/gagarinfan/auto-pr-test/pulls/${{github.event.number}} | jq '.labels')
-          echo $labels
+          if [[ $labels == *"test"* ]]; then
+            echo ::set-output name=apply::true
+          fi
+
+      - name: Run step if labels
+        if: steps.check.outputs.apply
+        run: echo yeah
