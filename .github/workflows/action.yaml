@@ -20,7 +20,7 @@ jobs:
         id: check
         run: |
           labels=$(curl -H "Accept: application/vnd.github.v3+json" \
-          -H Authorization: ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/gagarinfan/auto-pr-test/pulls/${{github.event.number}} | jq '.labels')
           if [[ $labels == *"test"* ]]; then
             echo ::set-output name=apply::true
