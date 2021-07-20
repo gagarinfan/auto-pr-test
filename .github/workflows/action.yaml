@@ -14,4 +14,4 @@ jobs:
 
       - name: Run on label
         if: ${{ github.event.label.name == 'automerge' }}
-        run: echo not-always
+        run: echo not-always bro
