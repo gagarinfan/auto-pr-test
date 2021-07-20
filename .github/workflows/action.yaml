@@ -19,7 +19,7 @@ jobs:
       - name: Check labels in fly
         id: check
         run: |
-          labels=$(curl -H "Accept: application/vnd.github.v3+json" \
+          labels=$(curl -s -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/gagarinfan/auto-pr-test/pulls/${{github.event.number}} | jq '.labels')
           if [[ $labels == *"test"* ]]; then
