@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  pull_request:
+
+jobs:
+  terraform:
+    name: Run test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Always
+        run: echo always
+
+      - name: Run on label
+        if: ${{ github.event.label.name == 'automerge' }}
+        run: echo not-always
