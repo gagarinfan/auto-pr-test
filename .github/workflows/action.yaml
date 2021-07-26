@@ -1,7 +1,9 @@
 name: Test
 
 on:
-  pull_request:
+  push:
+    paths:
+      - 'test_path/**'
 jobs:
   terraform:
     name: Run test
@@ -11,21 +13,27 @@ jobs:
       - name: Run Always
         run: echo always
 
-      - name: Run on label
-        # if: ${{ github.event.label.name == 'automerge' }}
-        if: contains( github.event.pull_request.labels.*.name, 'test')
-        run: echo not-always bro
+      - name: Check deploy conditions
+        id: check-deploy-conditions
+        if: |
+          github.ref == 'refs/heads/main'
+        run: echo "I am running from main only!"
 
-      - name: Check labels in fly
-        id: check
-        run: |
-          labels=$(curl -s -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/gagarinfan/auto-pr-test/pulls/${{github.event.number}} | jq '.labels')
-          if [[ $labels == *"test"* ]]; then
-            echo ::set-output name=apply::true
-          fi
+      # - name: Run on label
+      #   # if: ${{ github.event.label.name == 'automerge' }}
+      #   if: contains( github.event.pull_request.labels.*.name, 'test')
+      #   run: echo not-always bro
 
-      - name: Run step if labels
-        if: steps.check.outputs.apply
-        run: echo fk yeah
+      # - name: Check labels in fly
+      #   id: check
+      #   run: |
+      #     labels=$(curl -s -H "Accept: application/vnd.github.v3+json" \
+      #     -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" \
+      #     https://api.github.com/repos/gagarinfan/auto-pr-test/pulls/${{github.event.number}} | jq '.labels')
+      #     if [[ $labels == *"test"* ]]; then
+      #       echo ::set-output name=apply::true
+      #     fi
+
+      # - name: Run step if labels
+      #   if: steps.check.outputs.apply
+      #   run: echo fk yeah
